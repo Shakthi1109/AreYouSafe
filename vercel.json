@@ -4,6 +4,9 @@
   "devCommand": "pnpm run dev",
   "installCommand": "pnpm install",
   "framework": "vite",
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  },
   "rewrites": [
     {
       "source": "/(.*)",

@@ -1,7 +1,10 @@
 /**
  * Service API pour communiquer avec le backend
  */
+// Always log in production to debug
+console.log('VITE_API_URL from env:', import.meta.env.VITE_API_URL);
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+console.log('Using API_BASE_URL:', API_BASE_URL);
 
 export interface Symbol {
   id: string;
