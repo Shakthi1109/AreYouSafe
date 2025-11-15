@@ -3,6 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getCurrentUser, logout } from '@/lib/auth';
 import { CategorySymbolSelector } from '@/components/reporting/CategorySymbolSelector';
 import { BodyMap } from '@/components/reporting/BodyMap';
 import { EmotionScaleComponent } from '@/components/reporting/EmotionScale';
@@ -45,8 +46,9 @@ const SYMBOL_CATEGORIES = [
 
 export function HelpOthers() {
   const [step, setStep] = useState(1);
-  const [reporterId] = useState('reporter-001'); // To be replaced with authentication
-  const [reporterName] = useState('Reporter'); // To be replaced with authentication
+  const currentUser = getCurrentUser();
+  const reporterId = currentUser?.id || 'reporter-001';
+  const reporterName = currentUser?.name || 'Reporter';
   const [studentName, setStudentName] = useState('');
   
   const [symbols, setSymbols] = useState<SymbolSelection[]>([]);
@@ -184,9 +186,25 @@ export function HelpOthers() {
 
   return (
     <div className="help-others-page">
-      <Link to="/" className="dashboard-title-link">
-        <h1 className="dashboard-title">Are You Safe</h1>
-      </Link>
+      <div className="dashboard-header-top">
+        <Link to="/" className="dashboard-title-link">
+          <h1 className="dashboard-title">Are You Safe</h1>
+        </Link>
+        <div className="user-info">
+          <span className="user-name">{reporterName}</span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              logout();
+              window.location.href = '/';
+            }}
+            className="logout-btn"
+          >
+            Déconnexion
+          </Button>
+        </div>
+      </div>
 
       {step > 1 && (
         <div className="progress-bar">

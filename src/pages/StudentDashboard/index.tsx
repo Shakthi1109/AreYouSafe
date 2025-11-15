@@ -3,6 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getCurrentUser, logout } from '@/lib/auth';
 import { CategorySymbolSelector } from '@/components/reporting/CategorySymbolSelector';
 import { BodyMap } from '@/components/reporting/BodyMap';
 import { EmotionScaleComponent } from '@/components/reporting/EmotionScale';
@@ -46,8 +47,9 @@ const SYMBOL_CATEGORIES = [
 
 export function StudentDashboard() {
   const [step, setStep] = useState(1);
-  const [studentId] = useState('student-001'); // To be replaced with authentication
-  const [studentName] = useState('Student'); // To be replaced with authentication
+  const currentUser = getCurrentUser();
+  const studentId = currentUser?.id || 'student-001';
+  const studentName = currentUser?.name || 'Student';
   
   const [isEverythingFine, setIsEverythingFine] = useState<boolean | null>(null);
   const [wasEverythingFine, setWasEverythingFine] = useState<boolean>(false);
@@ -235,9 +237,25 @@ export function StudentDashboard() {
 
   return (
     <div className="student-dashboard">
-      <Link to="/" className="dashboard-title-link">
-        <h1 className="dashboard-title">Are You Safe</h1>
-      </Link>
+      <div className="dashboard-header-top">
+        <Link to="/" className="dashboard-title-link">
+          <h1 className="dashboard-title">Are You Safe</h1>
+        </Link>
+        <div className="user-info">
+          <span className="user-name">{studentName}</span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              logout();
+              window.location.href = '/';
+            }}
+            className="logout-btn"
+          >
+            Déconnexion
+          </Button>
+        </div>
+      </div>
 
       {isEverythingFine === false && (
         <div className="progress-bar">

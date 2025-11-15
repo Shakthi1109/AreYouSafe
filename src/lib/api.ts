@@ -1,6 +1,16 @@
 /**
  * Service API pour communiquer avec le backend
  */
+import {
+  saveReportToLocal,
+  getReportsFromLocal,
+  markReportAsSynced,
+  saveSymbolsToLocal,
+  getSymbolsFromLocal,
+  saveLocationsToLocal,
+  getLocationsFromLocal,
+} from './storage';
+
 // Always log in production to debug
 console.log('VITE_API_URL from env:', import.meta.env.VITE_API_URL);
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -72,36 +82,81 @@ export interface ReportCreate {
 
 // Récupérer les symboles disponibles
 export async function getSymbols(): Promise<Symbol[]> {
-  const response = await fetch(`${API_BASE_URL}/api/symbols`);
-  if (!response.ok) throw new Error('Erreur lors de la récupération des symboles');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/symbols`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des symboles');
+    const symbols = await response.json();
+    // Sauvegarder dans localStorage comme cache
+    saveSymbolsToLocal(symbols);
+    return symbols;
+  } catch (error) {
+    console.warn('API non disponible, utilisation du cache localStorage:', error);
+    // Fallback vers localStorage
+    const cached = getSymbolsFromLocal();
+    if (cached) return cached;
+    throw new Error('Impossible de récupérer les symboles (API et cache indisponibles)');
+  }
 }
 
 // Récupérer les lieux disponibles
 export async function getLocations(): Promise<Location[]> {
-  const response = await fetch(`${API_BASE_URL}/api/locations`);
-  if (!response.ok) throw new Error('Erreur lors de la récupération des lieux');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/locations`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des lieux');
+    const locations = await response.json();
+    // Sauvegarder dans localStorage comme cache
+    saveLocationsToLocal(locations);
+    return locations;
+  } catch (error) {
+    console.warn('API non disponible, utilisation du cache localStorage:', error);
+    // Fallback vers localStorage
+    const cached = getLocationsFromLocal();
+    if (cached) return cached;
+    throw new Error('Impossible de récupérer les lieux (API et cache indisponibles)');
+  }
 }
 
 // Créer un signalement
 export async function createReport(report: ReportCreate): Promise<Report> {
-  const response = await fetch(`${API_BASE_URL}/api/reports`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(report),
-  });
-  if (!response.ok) throw new Error('Erreur lors de la création du signalement');
-  return response.json();
+  // Toujours sauvegarder dans localStorage d'abord (pour garantir la persistance)
+  const localReport = saveReportToLocal(report);
+  
+  try {
+    // Essayer d'envoyer au serveur
+    const response = await fetch(`${API_BASE_URL}/api/reports`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(report),
+    });
+    
+    if (response.ok) {
+      const serverReport = await response.json();
+      // Marquer comme synchronisé
+      markReportAsSynced(localReport.localId!, serverReport);
+      return serverReport;
+    } else {
+      throw new Error('Erreur lors de la création du signalement');
+    }
+  } catch (error) {
+    console.warn('API non disponible, rapport sauvegardé localement:', error);
+    // Retourner le rapport local (déjà sauvegardé)
+    return localReport;
+  }
 }
 
 // Récupérer tous les signalements (pour enseignants)
 export async function getReports(): Promise<Report[]> {
-  const response = await fetch(`${API_BASE_URL}/api/reports`);
-  if (!response.ok) throw new Error('Erreur lors de la récupération des signalements');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reports`);
+    if (!response.ok) throw new Error('Erreur lors de la récupération des signalements');
+    return response.json();
+  } catch (error) {
+    console.warn('API non disponible, utilisation des rapports locaux:', error);
+    // Fallback vers localStorage
+    return getReportsFromLocal();
+  }
 }
 
 // Mettre à jour un signalement

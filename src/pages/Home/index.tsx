@@ -14,10 +14,10 @@ export function Home() {
     <div className="home-page">
       <ThemeSelector />
       
-      {/* Teacher Login Button - Top Left */}
-      <Link to="/teacher" className="teacher-login-btn">
+      {/* Login Button - Top Left */}
+      <Link to="/login" className="teacher-login-btn">
         <LogIn className="login-icon" />
-        <span>Teacher Login</span>
+        <span>Connexion</span>
       </Link>
 
       <div className="home-container">

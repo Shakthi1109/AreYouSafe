@@ -1,9 +1,12 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { Home } from "@/pages/Home/index";
 import { StudentDashboard } from "@/pages/StudentDashboard/index";
 import { TeacherDashboard } from "@/pages/TeacherDashboard/index";
 import { HelpOthers } from "@/pages/HelpOthers/index";
 import { FindOut } from "@/pages/FindOut/index";
+import { Login } from "@/pages/Login/index";
+import { Register } from "@/pages/Register/index";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const routes = [
     {
@@ -11,16 +14,36 @@ const routes = [
         element: <Home />
     },
     {
+        path: "/login",
+        element: <Login />
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
         path: "/student",
-        element: <StudentDashboard />
+        element: (
+            <ProtectedRoute requiredRole="student">
+                <StudentDashboard />
+            </ProtectedRoute>
+        )
     },
     {
         path: "/teacher",
-        element: <TeacherDashboard />
+        element: (
+            <ProtectedRoute requiredRole="teacher">
+                <TeacherDashboard />
+            </ProtectedRoute>
+        )
     },
     {
         path: "/help-others",
-        element: <HelpOthers />
+        element: (
+            <ProtectedRoute requiredRole="student">
+                <HelpOthers />
+            </ProtectedRoute>
+        )
     },
     {
         path: "/find-out",

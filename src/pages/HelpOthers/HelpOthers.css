@@ -17,10 +17,36 @@
   100% { background-position: 0% 50%; }
 }
 
+.dashboard-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
 .dashboard-title-link {
   text-decoration: none;
-  align-self: flex-start;
   flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #FF6BA8;
+  font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive, sans-serif;
+}
+
+.logout-btn {
+  font-size: 14px;
+  padding: 8px 16px;
+  height: auto;
 }
 
 .dashboard-title-link:hover {

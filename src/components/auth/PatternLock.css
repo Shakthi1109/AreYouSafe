@@ -1,0 +1,215 @@
+/* Pattern Lock Component - 手势密码锁样式 */
+
+.pattern-lock {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 24px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pattern-instructions {
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  font-weight: 500;
+}
+
+.pattern-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pattern-line {
+  stroke: #3b82f6;
+  stroke-width: 3;
+  transition: stroke 0.2s ease;
+}
+
+.pattern-lock.error .pattern-line {
+  stroke: #ef4444;
+  animation: shake 0.5s ease;
+}
+
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+}
+
+.pattern-dot {
+  aspect-ratio: 1;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  outline: none;
+}
+
+.pattern-dot:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.pattern-dot:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.pattern-dot:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.pattern-dot:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.dot-outer {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #cbd5e1;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.pattern-dot.selected .dot-outer {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: scale(1.1);
+}
+
+.pattern-dot.last-selected .dot-outer {
+  border-color: #3b82f6;
+  background: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.dot-inner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  transition: all 0.2s ease;
+}
+
+.pattern-dot.selected .dot-inner {
+  background: #3b82f6;
+  width: 16px;
+  height: 16px;
+}
+
+.pattern-dot.last-selected .dot-inner {
+  background: white;
+  width: 20px;
+  height: 20px;
+}
+
+.pattern-error {
+  text-align: center;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.pattern-lock.error .pattern-grid {
+  border-color: #fecaca;
+  background: #fef2f2;
+  animation: shake 0.5s ease;
+}
+
+.pattern-lock.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .dot-outer {
+    border-width: 4px;
+  }
+
+  .pattern-line {
+    stroke-width: 4;
+  }
+
+  .pattern-dot:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .pattern-dot,
+  .dot-outer,
+  .dot-inner,
+  .pattern-line {
+    transition: none;
+  }
+
+  .pattern-dot:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .pattern-lock {
+    max-width: 280px;
+    padding: 16px;
+  }
+
+  .pattern-grid {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .dot-outer {
+    width: 50px;
+    height: 50px;
+  }
+}
+
