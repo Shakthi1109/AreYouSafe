@@ -13,12 +13,19 @@ app = FastAPI(title="Are You Safe API", version="1.0.0")
 
 # Configuration CORS pour permettre les requêtes depuis le frontend
 import os
+import re
 
-CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+# Get CORS origins from environment variable
+CORS_ORIGINS_STR = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000")
+CORS_ORIGINS = [origin.strip() for origin in CORS_ORIGINS_STR.split(",") if origin.strip()]
+
+# Check if we need to allow Vercel preview URLs
+ALLOW_VERCEL_PREVIEW = any("vercel.app" in origin for origin in CORS_ORIGINS)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app" if ALLOW_VERCEL_PREVIEW else None,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
