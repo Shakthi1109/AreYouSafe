@@ -13,6 +13,10 @@ import howAreYouIcon from '@/assets/icons/questions/How_u_feel.png';
 import whereIcon from '@/assets/icons/questions/where.png';
 import howOftenIcon from '@/assets/icons/questions/How_offen.png';
 import whichBodyPartIcon from '@/assets/icons/questions/Which_body_part.png';
+// Category type icons
+import attackIcon from '@/assets/icons/types/attack.png';
+import mockIcon from '@/assets/icons/types/mock.png';
+import isolationIcon from '@/assets/icons/types/isolation.png';
 import {
   createReport,
   getLocations,
@@ -34,10 +38,10 @@ const frequencyOptions = [
 
 // Category configuration for step-by-step symbol selection
 const SYMBOL_CATEGORIES = [
-  { id: 'physical', label: 'Physical Harassment', icon: '👊' },
-  { id: 'verbal', label: 'Verbal Harassment', icon: '💬' },
-  { id: 'social', label: 'Social Harassment', icon: '👥' },
-  { id: 'cyber', label: 'Cyber Harassment', icon: '💻' },
+  { id: 'physical', label: 'Physical Harassment', icon: attackIcon },
+  { id: 'verbal', label: 'Verbal Harassment', icon: mockIcon },
+  { id: 'social', label: 'Social Harassment', icon: isolationIcon },
+  { id: 'cyber', label: 'Cyber Harassment', icon: '💻' }, // No icon file for cyber, keep emoji
 ];
 
 export function StudentDashboard() {
@@ -319,12 +323,24 @@ export function StudentDashboard() {
               <p>You have selected the following incidents:</p>
               {symbols.length > 0 ? (
                 <div className="selected-symbols-list">
-                  {symbols.map((symbol) => (
-                    <div key={symbol.id} className="selected-symbol-item">
-                      <span className="symbol-category-badge">{SYMBOL_CATEGORIES.find(c => c.id === symbol.category)?.icon}</span>
-                      <span className="symbol-label-text">{symbol.label}</span>
-                    </div>
-                  ))}
+                  {symbols.map((symbol) => {
+                    const category = SYMBOL_CATEGORIES.find(c => c.id === symbol.category);
+                    const categoryIcon = category?.icon;
+                    const isImageIcon = typeof categoryIcon === 'string' && 
+                      (categoryIcon.includes('/') || categoryIcon.includes('\\') || categoryIcon.endsWith('.png'));
+                    return (
+                      <div key={symbol.id} className="selected-symbol-item">
+                        <span className="symbol-category-badge">
+                          {isImageIcon ? (
+                            <img src={categoryIcon} alt={category?.label || ''} className="symbol-category-badge-image" />
+                          ) : (
+                            categoryIcon
+                          )}
+                        </span>
+                        <span className="symbol-label-text">{symbol.label}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <p style={{ color: '#FF8CC8', fontStyle: 'italic' }}>No incidents selected. You can go back to add incidents.</p>

@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -17,6 +17,16 @@
 .category-icon-large {
   font-size: 64px;
   margin-bottom: 16px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.category-icon-image {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
@@ -73,8 +83,9 @@
   margin-top: 24px;
   overflow: visible;
   width: 100%;
-  padding: 0;
+  padding: 8px;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 @media (min-width: 640px) {
@@ -104,7 +115,7 @@
   align-items: center;
   gap: 10px;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   box-shadow: 
     0 3px 0 0 #FFB6D9,
     0 6px 12px rgba(255, 182, 217, 0.2),
@@ -112,6 +123,8 @@
   font-family: 'Comic Sans MS', 'Chalkboard SE', 'Marker Felt', cursive, sans-serif;
   min-height: 120px;
   width: 100%;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .symbol-card-category::before {
@@ -135,11 +148,12 @@
 .symbol-card-category:hover {
   border-color: #FF8CC8;
   background: linear-gradient(135deg, #FFF0F8 0%, #FFE5F1 100%);
-  transform: translateY(-6px) rotate(-1deg) scale(1.08);
+  transform: translateY(-4px) rotate(-1deg) scale(1.05);
   box-shadow: 
     0 5px 0 0 #FF8CC8,
     0 10px 20px rgba(255, 140, 200, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  z-index: 1;
 }
 
 .symbol-card-category.selected {
@@ -149,16 +163,29 @@
     0 6px 0 0 #FF6BA8,
     0 12px 24px rgba(255, 107, 168, 0.35),
     inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  transform: scale(1.08) rotate(-2deg);
+  transform: scale(1.05) rotate(-2deg);
+  z-index: 1;
 }
 
 .symbol-icon-category {
   font-size: 40px;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.symbol-card-category:hover .symbol-icon-category {
+.symbol-icon-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.3s ease;
+}
+
+.symbol-card-category:hover .symbol-icon-category,
+.symbol-card-category:hover .symbol-icon-image {
   transform: scale(1.15) rotate(5deg);
 }
 

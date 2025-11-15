@@ -10,6 +10,7 @@
   flex-direction: column;
   gap: 20px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 @keyframes gradientShift {
@@ -116,19 +117,17 @@
   box-shadow: 0 6px 0 0 #FFB6D9, 0 12px 32px rgba(255, 182, 217, 0.25);
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
+  min-height: fit-content;
+  overflow: visible;
 }
 
 /* Form Step */
 .form-step {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  width: 100%;
+  overflow: visible;
 }
 
 .form-step-no-scroll {
@@ -351,8 +350,8 @@
   padding: 28px;
   box-shadow: 0 3px 0 0 #FFB6D9, 0 6px 12px rgba(255, 182, 217, 0.2);
   flex-shrink: 0;
-  overflow-y: auto;
-  max-height: 100%;
+  overflow: visible;
+  width: 100%;
 }
 
 .review-summary p {
@@ -381,6 +380,15 @@
 .symbol-category-badge {
   font-size: 24px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.symbol-category-badge-image {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .symbol-label-text {
@@ -394,10 +402,11 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: auto;
+  margin-top: 32px;
   padding-top: 24px;
   border-top: 3px solid #FFE5F1;
   flex-shrink: 0;
+  width: 100%;
 }
 
 .form-actions button {

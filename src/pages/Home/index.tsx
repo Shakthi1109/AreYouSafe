@@ -24,7 +24,7 @@ export function Home() {
         <div className="home-header">
           <h1 className="home-title">Are You Safe</h1>
           <p className="home-subtitle">
-            Visual School Harassment Reporting System
+            Je te cois 
           </p>
         </div>
 

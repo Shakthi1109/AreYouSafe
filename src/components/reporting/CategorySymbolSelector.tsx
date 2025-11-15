@@ -75,10 +75,20 @@ export function CategorySymbolSelector({
 
   const hasSelection = selected.length > 0;
 
+  // Check if categoryIcon is an image path (contains path indicators) or emoji
+  const isImageIcon = typeof categoryIcon === 'string' && 
+    (categoryIcon.includes('/') || categoryIcon.includes('\\') || categoryIcon.endsWith('.png'));
+
   return (
     <div className="category-symbol-selector">
       <div className="category-header">
-        <div className="category-icon-large">{categoryIcon}</div>
+        <div className="category-icon-large">
+          {isImageIcon ? (
+            <img src={categoryIcon} alt={categoryLabel} className="category-icon-image" />
+          ) : (
+            categoryIcon
+          )}
+        </div>
         <h3 className="category-title">{categoryLabel}</h3>
         <p className="category-description">Select what happened, or choose "None" if nothing happened in this category</p>
       </div>
@@ -97,7 +107,11 @@ export function CategorySymbolSelector({
               )}
             >
               <div className="symbol-icon-category">
-                {categoryIcon}
+                {isImageIcon ? (
+                  <img src={categoryIcon} alt={categoryLabel} className="symbol-icon-image" />
+                ) : (
+                  categoryIcon
+                )}
               </div>
               <div className="symbol-label-category">{symbol.label}</div>
             </button>
