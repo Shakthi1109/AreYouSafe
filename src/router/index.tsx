@@ -15,7 +15,7 @@ function SplashThenHome() {
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate("/home", { replace: true });
-        }, 1800); // 显示约1.8秒的动画后进入首页
+        }, 4100); // show splash for ~4 seconds before going to /home
         return () => clearTimeout(timer);
     }, [navigate]);
     return <Splash />;

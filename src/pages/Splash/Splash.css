@@ -1,3 +1,4 @@
+/* Splash.css */
 .splash-screen {
   position: fixed;
   top: 0;
@@ -15,26 +16,35 @@
 
 .splash-screen.fade-out {
   opacity: 0;
+  pointer-events: none;
 }
 
 .splash-content {
   text-align: center;
   animation: fadeInUp 0.8s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center children horizontally */
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .splash-gif {
   width: 200px;
   height: 200px;
   object-fit: contain;
-  margin-bottom: 2rem;
+  /* remove any inline offsets — margin auto is enough */
+  margin: 0;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+  display: block;
 }
 
 .splash-title {
   font-size: 3rem;
   font-weight: bold;
   color: white;
-  margin-bottom: 0.5rem;
+  margin: 0;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
