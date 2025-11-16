@@ -418,7 +418,6 @@
 }
 
 .form-actions .next-btn:not([disabled]):hover {
-  transform: translateY(-6px) rotate(-2deg) scale(1.08) !important;
   box-shadow: 
     0 8px 0 0 #1a7ba8,
     0 16px 32px rgba(37, 150, 190, 0.5),

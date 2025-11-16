@@ -11,64 +11,59 @@ import './FindOut.css';
 const trainingSlides = [
   {
     id: 1,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'What is Harassment?',
-    description: 'Harassment is any unwanted behavior that makes someone feel uncomfortable, scared, or hurt. It can be physical, verbal, social, or happen online.'
+    gif: 'src/assets/gifs/StrangerDanger.gif',
+    title: 'Stranger Danger',
+    description: 'If a stranger approaches or offers something that feels wrong, say no, move away, and get help from a trusted adult.'
   },
   {
     id: 2,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Types of Harassment',
-    description: 'Harassment can take many forms including bullying, cyberbullying, physical intimidation, verbal abuse, and social exclusion.'
+    gif: 'src/assets/gifs/PersonalSpaces.gif',
+    title: 'Personal & Private Parts',
+    description: 'Your personal space and private parts are yours. If anyone tries to touch you, say no, step away, and tell a trusted adult.'
   },
   {
     id: 3,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Recognizing the Signs',
-    description: 'Learn to identify harassment early. Signs include repeated unwanted attention, threats, intimidation, or behavior that makes you feel unsafe.'
+    gif: 'src/assets/gifs/BadTouch.gif',
+    title: 'Bad Touch',
+    description: 'If someone touches you in a way that feels uncomfortable, say no, run away, and tell a trusted adult immediately.'
   },
   {
     id: 4,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Physical Harassment',
-    description: 'Physical harassment includes hitting, pushing, or any unwanted physical contact. No one has the right to touch you without permission.'
+    gif: 'src/assets/gifs/SexualHarasment.gif',
+    title: 'Physical/Sexual Harassment',
+    description: 'If someone touches you, grabs you, or behaves in a way that feels unsafe, say no loudly, move away, and seek help from a trusted adult.'
   },
   {
     id: 5,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Verbal Harassment',
-    description: 'Verbal harassment includes name-calling, threats, insults, or any words meant to hurt, intimidate, or demean someone.'
+    gif: 'src/assets/gifs/AdultContent.gif',
+    title: 'Adult Content',
+    description: 'If you accidentally see adult or inappropriate content, look away, leave the situation, and tell a trusted adult about it.'
   },
   {
     id: 6,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Cyberbullying',
-    description: 'Online harassment through social media, messages, or emails is just as serious. Always report cyberbullying and save evidence.'
+    gif: 'src/assets/gifs/Bully.gif',
+    title: 'Bullying',
+    description: 'If someone is teasing, hurting, or scaring you, say stop, move away, and ask a trusted adult for help.'
   },
   {
     id: 7,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'How to Respond',
-    description: 'If you experience harassment: stay calm, document everything, tell a trusted adult, and report it through proper channels.'
+    gif: 'src/assets/gifs/Uncomfortable.gif',
+    title: 'Feeling Uncomfortable',
+    description: 'If something or someone makes you feel uneasy, listen to that feeling—say no, step away, and talk to a trusted adult.'
   },
   {
     id: 8,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Supporting Others',
-    description: 'If you witness harassment, be an upstander not a bystander. Support the victim, report the incident, and never participate.'
+    gif: 'src/assets/gifs/SeekHelp.gif',
+    title: 'Talk to Trusted Adult',
+    description: 'When you feel scared, confused, or uncomfortable, talk to a trusted adult so they can help you stay safe.'
   },
   {
     id: 9,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Creating Safe Spaces',
-    description: 'Everyone deserves to feel safe. Treat others with respect, speak up against harassment, and help create a positive environment.'
-  },
-  {
-    id: 10,
-    gif: 'src/assets/gifs/loading.gif',
-    title: 'Getting Help',
-    description: 'Remember: you are not alone. Talk to teachers, counselors, parents, or use our reporting system. Help is always available.'
+    gif: 'src/assets/gifs/AdultAttention.gif',
+    title: 'Seek Help from Trusted Adult',
+    description: 'If you face anything unsafe, say no, get away from the situation, and immediately seek help from a trusted adult.'
   }
+  
 ];
 
 export function FindOut() {
