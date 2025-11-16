@@ -22,10 +22,7 @@ export function Home() {
 
       <div className="home-container">
         <div className="home-header">
-          <h1 className="home-title">Are You Safe</h1>
-          <p className="home-subtitle">
-            Je te cois 
-          </p>
+          <h1 className="home-title">Je te crois</h1>
         </div>
 
         <div className="main-options">
