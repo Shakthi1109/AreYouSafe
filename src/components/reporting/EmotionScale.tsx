@@ -2,6 +2,7 @@
  * Emotional scale to express how the student feels
  */
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { EmotionScale } from '@/lib/api';
 import feelingQuiet from '@/assets/icons/Answers/feeling_quiet.png';
@@ -34,6 +35,7 @@ interface EmotionScaleProps {
 }
 
 export function EmotionScaleComponent({ onSelect, selectedEmotion }: EmotionScaleProps) {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<number>(selectedEmotion?.level || 0);
 
   useEffect(() => {
@@ -50,8 +52,8 @@ export function EmotionScaleComponent({ onSelect, selectedEmotion }: EmotionScal
   return (
     <div className="emotion-scale">
       <div className="question-header">
-        <img src={howDoYouFeelIcon} alt="How do you feel" className="question-icon" />
-        <h3 className="text-lg font-semibold mb-4">How do you feel?</h3>
+        <img src={howDoYouFeelIcon} alt={t('emotionScale.howDoYouFeel')} className="question-icon" />
+        <h3 className="text-lg font-semibold mb-4">{t('emotionScale.howDoYouFeel')}</h3>
       </div>
       <div className="emotion-buttons">
         {emotionLevels.map((emotion) => (
@@ -74,10 +76,9 @@ export function EmotionScaleComponent({ onSelect, selectedEmotion }: EmotionScal
       </div>
       {selected > 0 && (
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          Selected level: {emotionLevels[selected - 1].label}
+          {t('emotionScale.selectedLevel', { level: emotionLevels[selected - 1].label })}
         </p>
       )}
     </div>
   );
 }
-

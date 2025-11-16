@@ -83,3 +83,13 @@
     @apply bg-background text-foreground;
     }
 }
+
+/* Loading container for i18n initialization */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 1.5rem;
+  color: var(--foreground);
+}

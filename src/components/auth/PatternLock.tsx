@@ -9,6 +9,8 @@ interface PatternLockProps {
   onComplete: (pattern: number[]) => void;
   onError?: () => void;
   disabled?: boolean;
+  ariaLabel?: string;
+  instructions?: string;
 }
 
 export interface PatternLockRef {
@@ -19,7 +21,7 @@ const GRID_SIZE = 3;
 const DOT_COUNT = GRID_SIZE * GRID_SIZE;
 
 export const PatternLock = forwardRef<PatternLockRef, PatternLockProps>(
-  ({ onComplete, onError, disabled = false }, ref) => {
+  ({ onComplete, onError, disabled = false, ariaLabel, instructions }, ref) => {
   const [selectedDots, setSelectedDots] = useState<number[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -158,12 +160,14 @@ export const PatternLock = forwardRef<PatternLockRef, PatternLockProps>(
       onMouseLeave={handleMouseUp}
       onTouchEnd={handleTouchEnd}
       role="application"
-      aria-label="Dessinez votre motif de sécurité"
+      aria-label={ariaLabel || "Draw your security pattern"}
       aria-describedby="pattern-instructions"
     >
-      <p id="pattern-instructions" className="pattern-instructions">
-        Dessinez votre motif de sécurité (minimum 4 points)
-      </p>
+      {instructions && (
+        <p id="pattern-instructions" className="pattern-instructions">
+          {instructions}
+        </p>
+      )}
       <svg className="pattern-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
         {selectedDots.length > 1 && (
           <path

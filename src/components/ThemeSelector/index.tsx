@@ -2,6 +2,7 @@
  * Theme color selector component for background
  */
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Palette } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import './ThemeSelector.css';
@@ -36,6 +37,7 @@ interface ThemeSelectorProps {
 }
 
 export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTheme, setSelectedTheme] = useState<ThemeColor>(() => {
     const saved = localStorage.getItem('home-theme');
@@ -47,7 +49,7 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
     const themeData = themes.find((t) => t.id === selectedTheme);
     if (themeData) {
       document.documentElement.style.setProperty('--home-bg-gradient', themeData.gradient);
-      
+
       // Ajuster la couleur du texte et du titre selon le thème
       if (selectedTheme === 'default') {
         document.documentElement.style.setProperty('--home-text-color', 'white');
@@ -57,7 +59,7 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
         document.documentElement.style.setProperty('--home-text-color', '#1f2937');
         document.documentElement.style.setProperty('--home-title-gradient', 'linear-gradient(135deg, #1f2937 0%, #4b5563 100%)');
       }
-      
+
       localStorage.setItem('home-theme', selectedTheme);
     }
     onThemeChange?.(selectedTheme);
@@ -68,7 +70,7 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
     const themeData = themes.find((t) => t.id === theme);
     if (themeData) {
       document.documentElement.style.setProperty('--home-bg-gradient', themeData.gradient);
-      
+
       // Ajuster la couleur du texte et du titre selon le thème
       if (theme === 'default') {
         document.documentElement.style.setProperty('--home-text-color', 'white');
@@ -78,7 +80,7 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
         document.documentElement.style.setProperty('--home-text-color', '#1f2937');
         document.documentElement.style.setProperty('--home-title-gradient', 'linear-gradient(135deg, #1f2937 0%, #4b5563 100%)');
       }
-      
+
       localStorage.setItem('home-theme', theme);
     }
   };
@@ -94,8 +96,8 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
       <button
         className="theme-toggle-btn"
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Change theme"
-        title="Change background color theme"
+        aria-label={t('themeSelector.changeTheme')}
+        title={t('themeSelector.changeBackgroundColor')}
       >
         <Palette className="theme-icon" />
       </button>
@@ -105,7 +107,7 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
           <div className="theme-overlay" onClick={() => setIsOpen(false)} />
           <div className="theme-menu">
             <div className="theme-menu-header">
-              <span>Choose background color</span>
+              <span>{t('themeSelector.chooseBackgroundColor')}</span>
             </div>
             <div className="theme-options">
               {themes.map((theme) => (
@@ -134,4 +136,3 @@ export function ThemeSelector({ onThemeChange }: ThemeSelectorProps) {
     </div>
   );
 }
-

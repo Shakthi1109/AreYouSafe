@@ -2,6 +2,7 @@
  * Category-based symbol selector - one category per page
  */
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { getSymbols, type Symbol, type SymbolSelection } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import './CategorySymbolSelector.css';
@@ -23,13 +24,14 @@ export function CategorySymbolSelector({
   selectedSymbols = [],
   onSkip,
 }: CategorySymbolSelectorProps) {
+  const { t } = useTranslation();
   const [symbols, setSymbols] = useState<Symbol[]>([]);
   const [selected, setSelected] = useState<SymbolSelection[]>([]);
   const prevCategoryRef = useRef<string>(category);
 
   useEffect(() => {
     loadSymbols();
-    
+
     // Reset selected when category changes (not when selectedSymbols changes)
     if (prevCategoryRef.current !== category) {
       const categorySelected = selectedSymbols?.filter((s) => s.category === category) || [];
@@ -76,7 +78,7 @@ export function CategorySymbolSelector({
   const hasSelection = selected.length > 0;
 
   // Check if categoryIcon is an image path (contains path indicators) or emoji
-  const isImageIcon = typeof categoryIcon === 'string' && 
+  const isImageIcon = typeof categoryIcon === 'string' &&
     (categoryIcon.includes('/') || categoryIcon.includes('\\') || categoryIcon.endsWith('.png'));
 
   return (
@@ -90,7 +92,7 @@ export function CategorySymbolSelector({
           )}
         </div>
         <h3 className="category-title">{categoryLabel}</h3>
-        <p className="category-description">Select what happened, or choose "None" if nothing happened in this category</p>
+        <p className="category-description">{t('categorySymbolSelector.description')}</p>
       </div>
 
       {/* Symbols grid */}
@@ -126,10 +128,9 @@ export function CategorySymbolSelector({
           )}
         >
           <div className="symbol-icon-category none-icon-symbol">✓</div>
-          <div className="symbol-label-category">None</div>
+          <div className="symbol-label-category">{t('categorySymbolSelector.none')}</div>
         </button>
       </div>
     </div>
   );
 }
-

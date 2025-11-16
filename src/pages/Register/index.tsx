@@ -218,7 +218,7 @@ export function Register() {
                 <label htmlFor="role-select" className="form-label">
                   {t('register.role.label')}
                 </label>
-                <div className="role-selection" role="radiogroup" aria-label="Sélectionnez votre rôle">
+                <div className="role-selection" role="radiogroup" aria-label={t('register.role.ariaLabel')}>
                   <button
                     type="button"
                     id="role-student"
@@ -308,7 +308,7 @@ export function Register() {
                         setError('');
                       }}
                       className="clear-pattern-btn"
-                      aria-label="Effacer le motif"
+                      aria-label={t('register.clearPattern')}
                     >
                       {t('register.clear')}
                     </button>
@@ -318,6 +318,8 @@ export function Register() {
                   ref={patternLockRef}
                   onComplete={handlePatternComplete}
                   onError={() => setError(t('register.errors.patternRequired'))}
+                  ariaLabel={t('register.pattern.ariaLabel')}
+                  instructions={t('register.pattern.instructions')}
                 />
                 {pattern.length >= 4 && (
                   <div className="pattern-confirmed">
@@ -353,7 +355,7 @@ export function Register() {
                 <label htmlFor="role-select" className="form-label">
                   {t('register.role.label')}
                 </label>
-                <div className="role-selection" role="radiogroup" aria-label="Sélectionnez votre rôle">
+                <div className="role-selection" role="radiogroup" aria-label={t('register.role.ariaLabel')}>
                   <button
                     type="button"
                     id="role-student"
@@ -516,7 +518,7 @@ export function Register() {
                         setError('');
                       }}
                       className="clear-pattern-btn"
-                      aria-label="Effacer le motif"
+                      aria-label={t('register.clearPattern')}
                       disabled={isSubmitting}
                     >
                       {t('register.clear')}
@@ -528,6 +530,8 @@ export function Register() {
                   onComplete={handleConfirmPatternComplete}
                   onError={() => setError(t('register.errors.patternsMismatch'))}
                   disabled={isSubmitting}
+                  ariaLabel={t('register.confirmPattern.ariaLabel')}
+                  instructions={t('register.confirmPattern.instructions')}
                 />
 
                 {error && (

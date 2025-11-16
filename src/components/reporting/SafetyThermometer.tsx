@@ -2,6 +2,7 @@
  * Safety thermometer to indicate the level of safety felt
  */
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import type { SafetyThermometer } from '@/lib/api';
 import './SafetyThermometer.css';
@@ -20,6 +21,7 @@ const safetyLevels = [
 ];
 
 export function SafetyThermometerComponent({ onSelect, selectedSafety }: SafetyThermometerProps) {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<number>(selectedSafety?.level || 0);
 
   useEffect(() => {
@@ -37,13 +39,13 @@ export function SafetyThermometerComponent({ onSelect, selectedSafety }: SafetyT
     <div className="safety-thermometer">
       <div className="question-header">
         <div className="question-icon-placeholder">🛡️</div>
-        <h3 className="text-lg font-semibold mb-6 text-center">Do you feel safe at school?</h3>
+        <h3 className="text-lg font-semibold mb-6 text-center">{t('safetyThermometer.question')}</h3>
       </div>
-      
+
       <div className="thermometer-container-horizontal">
         {safetyLevels.map((safety) => {
           const isActive = selected === safety.level;
-          
+
           return (
             <button
               key={safety.level}
@@ -67,10 +69,9 @@ export function SafetyThermometerComponent({ onSelect, selectedSafety }: SafetyT
 
       {selected > 0 && (
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          Safety level: {safetyLevels[selected - 1].label}
+          {t('safetyThermometer.selectedLevel', { level: safetyLevels[selected - 1].label })}
         </p>
       )}
     </div>
   );
 }
-

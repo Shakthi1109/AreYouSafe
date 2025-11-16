@@ -3,6 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { getReports, updateReport, type Report } from '@/lib/api';
 import { getCurrentUser, logout } from '@/lib/auth';
 import { generateRecommendations, getRecommendations, saveRecommendations, type AIRecommendation } from '@/lib/ai';
@@ -28,6 +29,7 @@ const emotionColors: Record<string, string> = {
 };
 
 export function TeacherDashboard() {
+  const { t } = useTranslation();
   const currentUser = getCurrentUser();
   const [reports, setReports] = useState<Report[]>([]);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
@@ -71,7 +73,7 @@ export function TeacherDashboard() {
       }
     } catch (error) {
       console.error('Error updating status:', error);
-      alert('Error updating status');
+      alert(t('teacherDashboard.errors.updateStatus'));
     }
   };
 
@@ -102,7 +104,7 @@ export function TeacherDashboard() {
 
   const handleGenerateAIRecommendations = async () => {
     if (!selectedReport) return;
-    
+
     setIsGeneratingAI(true);
     try {
       const recommendations = await generateRecommendations(selectedReport);
@@ -112,14 +114,14 @@ export function TeacherDashboard() {
       saveRecommendations(selectedReport.id, recommendations);
     } catch (error) {
       console.error('Error generating AI recommendations:', error);
-      alert('Error generating recommendations. Please try again.');
+      alert(t('teacherDashboard.errors.generateRecommendations'));
     } finally {
       setIsGeneratingAI(false);
     }
   };
 
-  const filteredReports = filter === 'all' 
-    ? reports 
+  const filteredReports = filter === 'all'
+    ? reports
     : reports.filter((r) => r.status === filter);
 
   const formatDate = (dateString: string) => {
@@ -136,7 +138,7 @@ export function TeacherDashboard() {
   if (isLoading) {
     return (
       <div className="teacher-dashboard">
-        <div className="loading">Loading reports...</div>
+        <div className="loading">{t('teacherDashboard.loading')}</div>
       </div>
     );
   }
@@ -146,15 +148,15 @@ export function TeacherDashboard() {
       <div className="dashboard-header">
         <div className="dashboard-header-top">
           <div>
-            <h1 className="dashboard-title">Are You Safe - Teacher Dashboard</h1>
+            <h1 className="dashboard-title">{t('teacherDashboard.title')}</h1>
             {currentUser && (
-              <p className="teacher-name">Enseignant: {currentUser.name}</p>
+              <p className="teacher-name">{t('teacherDashboard.teacher')}: {currentUser.name}</p>
             )}
           </div>
           <div className="header-actions">
             <Link to="/">
               <Button variant="outline" className="home-button">
-                Accueil
+                {t('teacherDashboard.home')}
               </Button>
             </Link>
             <Button
@@ -165,13 +167,13 @@ export function TeacherDashboard() {
               }}
               className="logout-button"
             >
-              Déconnexion
+              {t('teacherDashboard.logout')}
             </Button>
           </div>
         </div>
         <div className="dashboard-subtitle-row">
           <p className="dashboard-subtitle">
-            {reports.length} total report(s) • {reports.filter((r) => r.status === 'pending').length} pending
+            {reports.length} {t('teacherDashboard.totalReports', { count: reports.length })} • {reports.filter((r) => r.status === 'pending').length} {t('teacherDashboard.pending')}
           </p>
           <div className="view-toggle">
             <Button
@@ -183,7 +185,7 @@ export function TeacherDashboard() {
                 setStudentAnalysis(null);
               }}
             >
-              Reports
+              {t('teacherDashboard.reports')}
             </Button>
             <Button
               variant={view === 'students' ? 'default' : 'outline'}
@@ -194,7 +196,7 @@ export function TeacherDashboard() {
               }}
             >
               <Users className="users-icon" />
-              Students
+              {t('teacherDashboard.students')}
             </Button>
           </div>
         </div>
@@ -209,32 +211,32 @@ export function TeacherDashboard() {
               onClick={() => setFilter('all')}
               className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
             >
-              All ({reports.length})
+              {t('teacherDashboard.all', { count: reports.length })}
             </button>
             <button
               onClick={() => setFilter('pending')}
               className={`filter-btn ${filter === 'pending' ? 'active' : ''}`}
             >
-              Pending ({reports.filter((r) => r.status === 'pending').length})
+              {t('teacherDashboard.pending', { count: reports.filter((r) => r.status === 'pending').length })}
             </button>
             <button
               onClick={() => setFilter('reviewed')}
               className={`filter-btn ${filter === 'reviewed' ? 'active' : ''}`}
             >
-              Reviewed ({reports.filter((r) => r.status === 'reviewed').length})
+              {t('teacherDashboard.reviewed', { count: reports.filter((r) => r.status === 'reviewed').length })}
             </button>
             <button
               onClick={() => setFilter('resolved')}
               className={`filter-btn ${filter === 'resolved' ? 'active' : ''}`}
             >
-              Resolved ({reports.filter((r) => r.status === 'resolved').length})
+              {t('teacherDashboard.resolved', { count: reports.filter((r) => r.status === 'resolved').length })}
             </button>
           </div>
 
           <div className="reports-grid">
             {filteredReports.length === 0 ? (
               <div className="empty-state">
-                <p>No reports to display</p>
+                <p>{t('teacherDashboard.noReports')}</p>
               </div>
             ) : (
               filteredReports.map((report) => (
@@ -265,10 +267,10 @@ export function TeacherDashboard() {
                       {statusLabels[report.status].label}
                     </span>
                   </div>
-                  
+
                   <div className="report-preview">
                     <div className="preview-item">
-                      <span className="preview-label">Symbols:</span>
+                      <span className="preview-label">{t('teacherDashboard.symbols')}:</span>
                       <div className="symbols-preview">
                         {report.symbols.slice(0, 3).map((s) => (
                           <span key={s.id} className="symbol-tag">
@@ -281,16 +283,16 @@ export function TeacherDashboard() {
                       </div>
                     </div>
                     <div className="preview-item">
-                      <span className="preview-label">Location:</span>
+                      <span className="preview-label">{t('teacherDashboard.location')}:</span>
                       <span>{report.location.icon} {report.location.name}</span>
                     </div>
                     <div className="preview-item">
-                      <span className="preview-label">Emotion:</span>
+                      <span className="preview-label">{t('teacherDashboard.emotion')}:</span>
                       <div
                         className="emotion-indicator"
                         style={{ backgroundColor: emotionColors[report.emotion.color] }}
                       >
-                        Level {report.emotion.level}
+                        {t('teacherDashboard.level')} {report.emotion.level}
                       </div>
                     </div>
                   </div>
@@ -303,7 +305,7 @@ export function TeacherDashboard() {
         {selectedReport && (
           <div className="report-detail">
             <div className="detail-header">
-              <h2>Report Details</h2>
+              <h2>{t('teacherDashboard.reportDetails')}</h2>
               <div className="detail-header-actions">
                 <Button
                   variant="outline"
@@ -316,7 +318,7 @@ export function TeacherDashboard() {
                   className="export-pdf-btn"
                 >
                   <Download className="download-icon" />
-                  Export PDF
+                  {t('teacherDashboard.exportPDF')}
                 </Button>
                 <button
                   onClick={() => setSelectedReport(null)}
@@ -329,15 +331,15 @@ export function TeacherDashboard() {
 
             <div className="detail-content">
               <div className="detail-section">
-                <h3>Student</h3>
+                <h3>{t('teacherDashboard.student')}</h3>
                 <p>{selectedReport.studentName} (ID: {selectedReport.studentId})</p>
                 <p className="text-sm text-muted-foreground">
-                  Reported on {formatDate(selectedReport.timestamp)}
+                  {t('teacherDashboard.reportedOn', { date: formatDate(selectedReport.timestamp) })}
                 </p>
               </div>
 
               <div className="detail-section">
-                <h3>Incident Type</h3>
+                <h3>{t('teacherDashboard.incidentType')}</h3>
                 <div className="symbols-list">
                   {selectedReport.symbols.map((symbol) => (
                     <div key={symbol.id} className="symbol-item">
@@ -350,7 +352,7 @@ export function TeacherDashboard() {
 
               {selectedReport.bodyMap && selectedReport.bodyMap.length > 0 && (
                 <div className="detail-section">
-                  <h3>Physical Harassment</h3>
+                  <h3>{t('teacherDashboard.physicalHarassment')}</h3>
                   <div className="body-parts-list">
                     {selectedReport.bodyMap.map((point, index) => (
                       <span key={index} className="body-part-tag">
@@ -362,24 +364,24 @@ export function TeacherDashboard() {
               )}
 
               <div className="detail-section">
-                <h3>Location</h3>
+                <h3>{t('teacherDashboard.location')}</h3>
                 <p>
                   {selectedReport.location.icon} {selectedReport.location.name}
                 </p>
               </div>
 
               <div className="detail-section">
-                <h3>Frequency</h3>
+                <h3>{t('teacherDashboard.frequency')}</h3>
                 <p>
-                  {selectedReport.frequency.value === 'once' && 'Once'}
-                  {selectedReport.frequency.value === 'sometimes' && 'Sometimes'}
-                  {selectedReport.frequency.value === 'often' && 'Often'}
-                  {selectedReport.frequency.value === 'always' && 'Always'}
+                  {selectedReport.frequency.value === 'once' && t('teacherDashboard.once')}
+                  {selectedReport.frequency.value === 'sometimes' && t('teacherDashboard.sometimes')}
+                  {selectedReport.frequency.value === 'often' && t('teacherDashboard.often')}
+                  {selectedReport.frequency.value === 'always' && t('teacherDashboard.always')}
                 </p>
               </div>
 
               <div className="detail-section">
-                <h3>Emotional State</h3>
+                <h3>{t('teacherDashboard.emotionalState')}</h3>
                 <div className="emotion-display">
                   <div className="emotion-bar">
                     <div
@@ -391,12 +393,12 @@ export function TeacherDashboard() {
                       }}
                     />
                   </div>
-                  <span>Level {selectedReport.emotion.level}/5</span>
+                  <span>{t('teacherDashboard.level')} {selectedReport.emotion.level}/5</span>
                 </div>
               </div>
 
               <div className="detail-section">
-                <h3>Safety Level</h3>
+                <h3>{t('teacherDashboard.safetyLevel')}</h3>
                 <div className="safety-display">
                   <div className="safety-bar">
                     <div
@@ -413,43 +415,43 @@ export function TeacherDashboard() {
                       }}
                     />
                   </div>
-                  <span>Level {selectedReport.safety.level}/5</span>
+                  <span>{t('teacherDashboard.level')} {selectedReport.safety.level}/5</span>
                 </div>
               </div>
 
               <div className="detail-section">
-                <h3>Status</h3>
+                <h3>{t('teacherDashboard.status')}</h3>
                 <div className="status-actions">
                   <Button
                     variant={selectedReport.status === 'pending' ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => handleStatusChange(selectedReport.id, 'pending')}
                   >
-                    Pending
+                    {t('teacherDashboard.pending')}
                   </Button>
                   <Button
                     variant={selectedReport.status === 'reviewed' ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => handleStatusChange(selectedReport.id, 'reviewed')}
                   >
-                    Reviewed
+                    {t('teacherDashboard.reviewed')}
                   </Button>
                   <Button
                     variant={selectedReport.status === 'resolved' ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => handleStatusChange(selectedReport.id, 'resolved')}
                   >
-                    Resolved
+                    {t('teacherDashboard.resolved')}
                   </Button>
                 </div>
               </div>
 
               <div className="detail-section">
-                <h3>AI Recommendations</h3>
+                <h3>{t('teacherDashboard.aiRecommendations')}</h3>
                 {!showAIRecommendations ? (
                   <div className="ai-generate-section">
                     <p className="ai-description">
-                      Generate AI-powered actionable recommendations based on this report.
+                      {t('teacherDashboard.generateRecommendations')}
                     </p>
                     <Button
                       onClick={handleGenerateAIRecommendations}
@@ -460,12 +462,12 @@ export function TeacherDashboard() {
                       {isGeneratingAI ? (
                         <>
                           <Loader2 className="spinner-icon" />
-                          Generating...
+                          {t('teacherDashboard.generating')}
                         </>
                       ) : (
                         <>
                           <Sparkles className="sparkles-icon" />
-                          Generate Recommendations
+                          {t('teacherDashboard.generate')}
                         </>
                       )}
                     </Button>
@@ -475,7 +477,7 @@ export function TeacherDashboard() {
                     <div className="ai-header">
                       <div className="ai-urgency">
                         <span className={`urgency-badge urgency-${aiRecommendations.urgency}`}>
-                          {aiRecommendations.urgency.toUpperCase()} URGENCY
+                          {aiRecommendations.urgency.toUpperCase()} {t('teacherDashboard.urgency')}
                         </span>
                       </div>
                       <Button
@@ -487,18 +489,18 @@ export function TeacherDashboard() {
                         }}
                         className="hide-ai-btn"
                       >
-                        Hide
+                        {t('teacherDashboard.hide')}
                       </Button>
                     </div>
 
                     <div className="ai-summary">
-                      <h4>Summary</h4>
+                      <h4>{t('teacherDashboard.summary')}</h4>
                       <p>{aiRecommendations.summary}</p>
                     </div>
 
                     <div className="ai-actions">
                       <div className="action-group">
-                        <h4>Immediate Actions</h4>
+                        <h4>{t('teacherDashboard.immediateActions')}</h4>
                         <ul>
                           {aiRecommendations.immediateActions.map((action, index) => (
                             <li key={index}>{action}</li>
@@ -507,7 +509,7 @@ export function TeacherDashboard() {
                       </div>
 
                       <div className="action-group">
-                        <h4>Short-term Actions</h4>
+                        <h4>{t('teacherDashboard.shortTermActions')}</h4>
                         <ul>
                           {aiRecommendations.shortTermActions.map((action, index) => (
                             <li key={index}>{action}</li>
@@ -516,7 +518,7 @@ export function TeacherDashboard() {
                       </div>
 
                       <div className="action-group">
-                        <h4>Long-term Actions</h4>
+                        <h4>{t('teacherDashboard.longTermActions')}</h4>
                         <ul>
                           {aiRecommendations.longTermActions.map((action, index) => (
                             <li key={index}>{action}</li>
@@ -526,7 +528,7 @@ export function TeacherDashboard() {
                     </div>
 
                     <div className="ai-resources">
-                      <h4>Resources</h4>
+                      <h4>{t('teacherDashboard.resources')}</h4>
                       <ul>
                         {aiRecommendations.resources.map((resource, index) => (
                           <li key={index}>{resource}</li>
@@ -535,7 +537,7 @@ export function TeacherDashboard() {
                     </div>
 
                     <div className="ai-notes">
-                      <h4>Analysis Notes</h4>
+                      <h4>{t('teacherDashboard.analysisNotes')}</h4>
                       <p>{aiRecommendations.notes}</p>
                     </div>
 
@@ -549,12 +551,12 @@ export function TeacherDashboard() {
                       {isGeneratingAI ? (
                         <>
                           <Loader2 className="spinner-icon" />
-                          Regenerating...
+                          {t('teacherDashboard.regenerating')}
                         </>
                       ) : (
                         <>
                           <Sparkles className="sparkles-icon" />
-                          Regenerate
+                          {t('teacherDashboard.regenerate')}
                         </>
                       )}
                     </Button>
@@ -563,25 +565,25 @@ export function TeacherDashboard() {
               </div>
 
               <div className="detail-section">
-                <h3>Teacher Notes</h3>
+                <h3>{t('teacherDashboard.teacherNotes')}</h3>
                 <textarea
                   value={teacherNotes}
                   onChange={(e) => {
                     setTeacherNotes(e.target.value);
                     setNotesSaved(false);
                   }}
-                  placeholder="Add your notes here..."
+                  placeholder={t('teacherDashboard.addNotes')}
                   className="notes-textarea"
                   rows={4}
                 />
-                <Button 
+                <Button
                   type="button"
-                  onClick={handleSaveNotes} 
+                  onClick={handleSaveNotes}
                   className={`mt-2 save-notes-btn ${notesSaved ? 'saved' : ''}`}
                   size="sm"
                   disabled={notesSaved}
                 >
-                  {notesSaved ? '✓ Saved' : 'Save Notes'}
+                  {notesSaved ? t('teacherDashboard.saved') : t('teacherDashboard.saveNotes')}
                 </Button>
               </div>
             </div>
@@ -648,7 +650,7 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
         <div className="student-detail-container">
           <div className="student-detail-header">
             <Button variant="outline" size="sm" onClick={onBack} className="back-btn">
-              ← Back to Students
+              {t('teacherDashboard.backToStudents')}
             </Button>
             <div className="student-header-info">
               <h2 className="student-detail-title">{selectedStudent.name}</h2>
@@ -658,8 +660,8 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
 
           {studentAnalysis && (
             <div className="analysis-section">
-              <h3 className="analysis-title">Long-term Analysis</h3>
-              
+              <h3 className="analysis-title">{t('teacherDashboard.longTermAnalysis')}</h3>
+
               <div className={`trend-alert ${studentAnalysis.trendAnalysis.hasRecurringProblems ? 'critical' : studentAnalysis.trendAnalysis.isWorsening ? 'warning' : 'info'}`}>
                 <div className="trend-icon">
                   {studentAnalysis.trendAnalysis.hasRecurringProblems ? (
@@ -677,39 +679,39 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
 
               <div className="analysis-grid">
                 <div className="analysis-card">
-                  <h4>Overview</h4>
+                  <h4>{t('teacherDashboard.overview')}</h4>
                   <div className="analysis-stats">
                     <div className="stat-item">
-                      <span className="stat-label">Total Reports:</span>
+                      <span className="stat-label">{t('teacherDashboard.totalReports')}:</span>
                       <span className="stat-value">{studentAnalysis.totalReports}</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">First Report:</span>
+                      <span className="stat-label">{t('teacherDashboard.firstReport')}:</span>
                       <span className="stat-value">{formatDate(studentAnalysis.firstReportDate)}</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Last Report:</span>
+                      <span className="stat-label">{t('teacherDashboard.lastReport')}:</span>
                       <span className="stat-value">{formatDate(studentAnalysis.lastReportDate)}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="analysis-card">
-                  <h4>Average Levels</h4>
+                  <h4>{t('teacherDashboard.averageLevels')}</h4>
                   <div className="analysis-stats">
                     <div className="stat-item">
-                      <span className="stat-label">Emotion:</span>
+                      <span className="stat-label">{t('teacherDashboard.emotion')}:</span>
                       <span className="stat-value">{studentAnalysis.averageEmotionLevel}/5</span>
                     </div>
                     <div className="stat-item">
-                      <span className="stat-label">Safety:</span>
+                      <span className="stat-label">{t('teacherDashboard.safety')}:</span>
                       <span className="stat-value">{studentAnalysis.averageSafetyLevel}/5</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="analysis-card">
-                  <h4>Most Common Categories</h4>
+                  <h4>{t('teacherDashboard.mostCommonCategories')}</h4>
                   <div className="category-list">
                     {studentAnalysis.mostCommonCategories.slice(0, 3).map((cat, index) => (
                       <div key={index} className="category-item">
@@ -721,19 +723,19 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
                 </div>
 
                 <div className="analysis-card">
-                  <h4>Frequency Pattern</h4>
+                  <h4>{t('teacherDashboard.frequencyPattern')}</h4>
                   <div className="frequency-stats">
                     <div className="frequency-item">
-                      <span>Once: {studentAnalysis.frequencyPattern.once}</span>
+                      <span>{t('teacherDashboard.once')}: {studentAnalysis.frequencyPattern.once}</span>
                     </div>
                     <div className="frequency-item">
-                      <span>Sometimes: {studentAnalysis.frequencyPattern.sometimes}</span>
+                      <span>{t('teacherDashboard.sometimes')}: {studentAnalysis.frequencyPattern.sometimes}</span>
                     </div>
                     <div className="frequency-item">
-                      <span>Often: {studentAnalysis.frequencyPattern.often}</span>
+                      <span>{t('teacherDashboard.often')}: {studentAnalysis.frequencyPattern.often}</span>
                     </div>
                     <div className="frequency-item">
-                      <span>Always: {studentAnalysis.frequencyPattern.always}</span>
+                      <span>{t('teacherDashboard.always')}: {studentAnalysis.frequencyPattern.always}</span>
                     </div>
                   </div>
                 </div>
@@ -741,7 +743,7 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
 
               {studentAnalysis.recurringIssues.length > 0 && (
                 <div className="recurring-issues">
-                  <h4>⚠️ Recurring Issues Detected</h4>
+                  <h4>{t('teacherDashboard.recurringIssues')}</h4>
                   <ul>
                     {studentAnalysis.recurringIssues.map((issue, index) => (
                       <li key={index}>{issue}</li>
@@ -753,11 +755,11 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
           )}
 
           <div className="student-reports-section">
-            <h3 className="reports-section-title">All Reports ({studentReports.length})</h3>
+            <h3 className="reports-section-title">{t('teacherDashboard.allReports', { count: studentReports.length })}</h3>
             <div className="student-reports-list">
               {studentReports.length === 0 ? (
                 <div className="empty-state">
-                  <p>No reports found for this student.</p>
+                  <p>{t('teacherDashboard.noReportsFound')}</p>
                 </div>
               ) : (
                 studentReports
@@ -772,7 +774,7 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
                       </div>
                       <div className="student-report-content">
                         <div className="report-info-row">
-                          <span className="info-label">Categories:</span>
+                          <span className="info-label">{t('teacherDashboard.categories')}:</span>
                           <div className="report-categories">
                             {report.symbols.map((s) => (
                               <span key={s.id} className="category-badge-small">
@@ -782,16 +784,16 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
                           </div>
                         </div>
                         <div className="report-info-row">
-                          <span className="info-label">Location:</span>
+                          <span className="info-label">{t('teacherDashboard.location')}:</span>
                           <span>{report.location.icon} {report.location.name}</span>
                         </div>
                         <div className="report-info-row">
-                          <span className="info-label">Emotion:</span>
-                          <span>Level {report.emotion.level}/5</span>
+                          <span className="info-label">{t('teacherDashboard.emotion')}:</span>
+                          <span>{t('teacherDashboard.level')} {report.emotion.level}/5</span>
                         </div>
                         <div className="report-info-row">
-                          <span className="info-label">Safety:</span>
-                          <span>Level {report.safety.level}/5</span>
+                          <span className="info-label">{t('teacherDashboard.safety')}:</span>
+                          <span>{t('teacherDashboard.level')} {report.safety.level}/5</span>
                         </div>
                       </div>
                     </div>
@@ -807,11 +809,11 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
   return (
     <div className="students-list-view">
       <div className="students-header">
-        <h2 className="students-title">All Students</h2>
+        <h2 className="students-title">{t('teacherDashboard.allStudents')}</h2>
         <div className="students-search">
           <input
             type="text"
-            placeholder="Search by name or ID..."
+            placeholder={t('teacherDashboard.searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="search-input"
@@ -822,7 +824,7 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
       <div className="students-grid">
         {filteredStudents.length === 0 ? (
           <div className="empty-state">
-            <p>No students found.</p>
+            <p>{t('teacherDashboard.noStudents')}</p>
           </div>
         ) : (
           filteredStudents.map((student) => {
@@ -844,12 +846,12 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
                 </div>
                 <div className="student-card-preview">
                   <div className="preview-item">
-                    <span className="preview-label">Reports:</span>
+                    <span className="preview-label">{t('teacherDashboard.reportsLabel')}:</span>
                     <span className="preview-value">{studentReports.length}</span>
                   </div>
                   {pendingCount > 0 && (
                     <div className="preview-item">
-                      <span className="preview-label">Pending:</span>
+                      <span className="preview-label">{t('teacherDashboard.pendingLabel')}:</span>
                       <span className={`status-badge ${statusLabels.pending.color}`}>
                         {pendingCount}
                       </span>
@@ -857,7 +859,7 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
                   )}
                   {resolvedCount > 0 && (
                     <div className="preview-item">
-                      <span className="preview-label">Resolved:</span>
+                      <span className="preview-label">{t('teacherDashboard.resolvedLabel')}:</span>
                       <span className={`status-badge ${statusLabels.resolved.color}`}>
                         {resolvedCount}
                       </span>
@@ -872,4 +874,3 @@ function StudentsView({ reports, selectedStudent, studentAnalysis, onSelectStude
     </div>
   );
 }
-

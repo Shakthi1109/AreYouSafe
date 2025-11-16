@@ -35,110 +35,225 @@
     "dashboardTitle": "I believe you",
     "logout": "Logout",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "errors": {
+      "noIncidents": "Please select at least one incident to report",
+      "incomplete": "Please fill in all required fields",
+      "submitFailed": "Error submitting report. Please try again."
+    },
+    "success": {
+      "title": "Report Sent Successfully",
+      "message": "Your report for {{name}} has been received. A teacher will review it shortly.",
+      "defaultName": "this person"
+    },
+    "buttons": {
+      "backToHome": "Back to Home",
+      "createNew": "Create New Report",
+      "sending": "Sending...",
+      "submitReport": "Submit Report"
+    },
+    "categories": {
+      "physical": "Physical Harassment",
+      "verbal": "Verbal Harassment",
+      "social": "Social Harassment",
+      "cyber": "Cyber Harassment"
+    }
   },
   "findOut": {
     "title": "Find Out",
     "subtitle": "Learn about preventing harassment and how to stay safe",
     "backToHome": "Back to Home",
-    "whatIsHarassment": "What is Harassment?",
-    "harassmentDescription": "Harassment is any unwanted behavior that makes someone feel uncomfortable, scared, or hurt. It can be physical, verbal, social, or happen online.",
-    "typesOfHarassment": "Types of Harassment",
-    "physical": "Physical: Hitting, pushing, or touching someone without permission",
-    "verbal": "Verbal: Insults, threats, or mean words",
-    "social": "Social: Excluding someone, spreading rumors, or ignoring them",
-    "cyber": "Cyber: Mean messages, sharing photos without permission, or online bullying",
-    "howToStaySafe": "How to Stay Safe",
-    "stayWithFriends": "Stay with friends or trusted adults when possible",
-    "tellTrustedAdult": "Tell a teacher, parent, or trusted adult if something happens",
-    "notYourFault": "Remember: It's never your fault if someone harasses you",
-    "usePlatform": "Use this platform to report incidents safely and anonymously",
-    "beKind": "Be kind to others and stand up for those who need help",
-    "whatToDoIfYouSeeHarassment": "What to Do If You See Harassment",
-    "staySafe": "Stay Safe",
-    "staySafeDescription": "Don't put yourself in danger. Get help from an adult if needed.",
-    "reportIt": "Report It",
-    "reportItDescription": "Use the \"Help someone in need\" option to report what you saw.",
-    "beSupportive": "Be Supportive",
-    "beSupportiveDescription": "Offer kind words and support to the person who was harassed.",
-    "getHelpForMyself": "Get Help for Myself",
-    "helpSomeoneInNeed": "Help Someone in Need"
+    "whatIsHarassment": {
+      "title": "What is Harassment?",
+      "description": "Harassment is any unwanted behavior that makes someone feel uncomfortable, scared, or hurt. It can be physical, verbal, social, or happen online."
+    },
+    "typesOfHarassment": {
+      "title": "Types of Harassment",
+      "physical": "Physical:",
+      "physicalDesc": "Hitting, pushing, or touching someone without permission",
+      "verbal": "Verbal:",
+      "verbalDesc": "Insults, threats, or mean words",
+      "social": "Social:",
+      "socialDesc": "Excluding someone, spreading rumors, or ignoring them",
+      "cyber": "Cyber:",
+      "cyberDesc": "Mean messages, sharing photos without permission, or online bullying"
+    },
+    "howToStaySafe": {
+      "title": "How to Stay Safe",
+      "advice1": "Stay with friends or trusted adults when possible",
+      "advice2": "Tell a teacher, parent, or trusted adult if something happens",
+      "advice3": "Remember: It's never your fault if someone harasses you",
+      "advice4": "Use this platform to report incidents safely and anonymously",
+      "advice5": "Be kind to others and stand up for those who need help"
+    },
+    "whatToDoIfYouSeeHarassment": {
+      "title": "What to Do If You See Harassment",
+      "step1": {
+        "title": "Stay Safe",
+        "description": "Don't put yourself in danger. Get help from an adult if needed."
+      },
+      "step2": {
+        "title": "Report It",
+        "description": "Use the \"Help someone in need\" option to report what you saw."
+      },
+      "step3": {
+        "title": "Be Supportive",
+        "description": "Offer kind words and support to the person who was harassed."
+      }
+    },
+    "buttons": {
+      "getHelpForMyself": "Get Help for Myself",
+      "helpSomeoneInNeed": "Help Someone in Need"
+    }
   },
   "login": {
     "title": "Login",
     "subtitle": "Log in to access your account",
-    "student": "Student",
-    "studentDescription": "Report an incident",
-    "teacher": "Teacher",
-    "teacherDescription": "View reports",
-    "name": "Name",
-    "nameHelp": "Your name will be used to identify your reports",
-    "email": "Email",
-    "emailHelp": "Your email is required for teachers",
-    "studentId": "Student ID",
-    "studentIdHelp": "The ID you used during registration",
-    "password": "Password",
-    "loginButton": "Log in",
-    "cancel": "Cancel",
-    "noAccount": "No account yet?",
-    "register": "Register",
-    "verificationTitle": "Password Verification",
-    "verificationSubtitle": "Enter your password to continue",
-    "patternTitle": "Draw your security pattern",
-    "patternSubtitle": "Draw your security pattern to continue (minimum 4 points)",
-    "enterPassword": "Enter your password",
-    "back": "Back",
-    "verifying": "Verifying...",
-    "connecting": "Connecting...",
-    "error": "Error",
-    "invalidCredentials": "Email or password incorrect. Check your information or register.",
-    "invalidPattern": "Incorrect ID or pattern. Please check your information.",
-    "patternMinPoints": "Please draw your security pattern (minimum 4 points)",
-    "enterName": "Please enter your name",
-    "enterEmail": "Please enter your email",
-    "enterStudentId": "Please enter your student ID",
-    "enterPasswordRequired": "Please enter a password"
+    "continue": "Continue",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "role": {
+      "label": "I am",
+      "ariaLabel": "Select your role",
+      "student": {
+        "label": "Student",
+        "description": "Report an incident"
+      },
+      "teacher": {
+        "label": "Teacher",
+        "description": "View reports"
+      }
+    },
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name",
+      "help": "Your name will be used to identify your reports"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email",
+      "help": "Your email is required for teachers"
+    },
+    "studentId": {
+      "label": "Student ID",
+      "placeholder": "Enter your student ID",
+      "help": "The ID you used during registration"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "verification": {
+      "password": {
+        "title": "Password Verification",
+        "subtitle": "Enter your password to continue"
+      },
+      "pattern": {
+        "title": "Draw your security pattern",
+        "subtitle": "Draw your security pattern to continue (minimum 4 points)"
+      }
+    },
+    "pattern": {
+      "help": {
+        "title": "Help",
+        "description": "Draw the same pattern you created during registration"
+      },
+      "ariaLabel": "Draw your security pattern",
+      "instructions": "Draw your security pattern to log in (minimum 4 points)"
+    },
+    "footer": {
+      "text": "No account yet?",
+      "link": "Register"
+    },
+    "errors": {
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "studentIdRequired": "Please enter your student ID",
+      "passwordRequired": "Please enter a password",
+      "invalidCredentials": "Email or password incorrect. Check your information or register.",
+      "invalidPattern": "Incorrect ID or pattern. Please check your information.",
+      "patternRequired": "Please draw your security pattern (minimum 4 points)",
+      "patternError": "Error entering pattern",
+      "loginFailed": "Login error. Please try again."
+    }
   },
   "register": {
     "title": "Registration",
     "subtitle": "Create your account to access the application",
-    "iAm": "I am",
-    "name": "Name",
-    "email": "Email",
-    "studentId": "Student ID",
-    "studentIdHelp": "This ID will be used to identify you",
-    "password": "Password",
-    "passwordPlaceholder": "Enter your password (minimum 6 characters)",
-    "confirmPassword": "Confirm Password",
-    "confirmPasswordPlaceholder": "Enter your password again",
-    "securityPattern": "Security Pattern",
-    "patternHelp": "This will be your login method",
-    "confirmPattern": "Confirm your pattern",
-    "confirmPatternHelp": "Draw your pattern again to confirm",
+    "continue": "Continue",
+    "signUp": "Sign Up",
+    "signingUp": "Signing up...",
     "clear": "Clear",
     "confirmed": "✓ Pattern recorded ({{count}} points)",
-    "continue": "Continue",
-    "cancel": "Cancel",
-    "back": "Back",
-    "registering": "Registering...",
-    "register": "Register",
-    "success": "Registration successful!",
-    "redirecting": "Redirecting to login page...",
-    "alreadyAccount": "Already have an account?",
-    "login": "Log in",
-    "error": "Error",
-    "nameRequired": "Please enter your name",
-    "emailRequired": "Please enter your email",
-    "studentIdRequired": "Please enter your student ID",
-    "passwordRequired": "Please enter a password",
-    "passwordMinLength": "Password must be at least 6 characters",
-    "passwordMismatch": "Passwords do not match",
-    "patternRequired": "Please draw your security pattern",
-    "patternMinPoints": "Pattern must contain at least 4 points",
-    "patternMismatch": "Patterns do not match. Try again.",
-    "alreadyRegistered": "This student ID is already registered. Please log in.",
-    "alreadyRegisteredEmail": "This email is already registered. Please log in.",
-    "registrationError": "Registration error. Please try again."
+    "role": {
+      "label": "I am",
+      "ariaLabel": "Select your role",
+      "student": {
+        "label": "Student",
+        "description": "Create a student account"
+      },
+      "teacher": {
+        "label": "Teacher",
+        "description": "Create a teacher account"
+      }
+    },
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "studentId": {
+      "label": "Student ID",
+      "placeholder": "Choose a student ID",
+      "help": "This ID will be used to identify you"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password (minimum 6 characters)"
+    },
+    "pattern": {
+      "label": "Security Pattern",
+      "help": "This will be your login method",
+      "ariaLabel": "Draw your security pattern",
+      "instructions": "Draw your security pattern (minimum 4 points)"
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Enter your password again",
+      "help": "Enter your password again to confirm"
+    },
+    "confirmPattern": {
+      "label": "Confirm your pattern",
+      "help": "Draw your pattern again to confirm",
+      "ariaLabel": "Confirm your security pattern",
+      "instructions": "Draw your pattern again to confirm (minimum 4 points)"
+    },
+    "clearPattern": "Clear pattern",
+    "footer": {
+      "text": "Already have an account?",
+      "link": "Log in"
+    },
+    "success": {
+      "title": "Registration successful!",
+      "message": "Redirecting to login page..."
+    },
+    "errors": {
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "studentIdRequired": "Please enter your student ID",
+      "passwordRequired": "Please enter a password",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordMismatch": "Passwords do not match",
+      "patternRequired": "Please draw your security pattern",
+      "patternMinPoints": "Pattern must contain at least 4 points",
+      "patternsMismatch": "Patterns do not match. Try again.",
+      "studentIdTaken": "This student ID is already registered. Please log in.",
+      "alreadyRegistered": "This email is already registered. Please log in.",
+      "registrationFailed": "Registration error. Please try again."
+    }
   },
   "studentDashboard": {
     "title": "I believe you",
@@ -169,21 +284,79 @@
     "createNewReport": "Create New Report",
     "backToHome": "Back to Home",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "steps": {
+      "1": {
+        "title": "How are you doing today?",
+        "reportIncident": "I need to report something",
+        "reportDescription": "Something happened that I want to report",
+        "everythingFine": "Everything is fine",
+        "fineDescription": "No incidents to report"
+      },
+      "6": {
+        "title": "Review Your Report",
+        "summary": "You have selected the following incidents:",
+        "noIncidents": "No incidents selected. You can go back to add incidents."
+      },
+      "8": {
+        "title": "Where did this happen?",
+        "subtitle": "Select the location"
+      },
+      "9": {
+        "title": "How often does this happen?",
+        "options": {
+          "once": "Once",
+          "sometimes": "Sometimes",
+          "often": "Often",
+          "always": "Always"
+        }
+      },
+      "11": {
+        "title": "Where were you touched?",
+        "noPhysical": "No physical incidents reported. You can proceed to submit."
+      }
+    },
+    "buttons": {
+      "previous": "Previous",
+      "next": "Next",
+      "submit": "Submit Report",
+      "sending": "Sending...",
+      "backToHome": "Back to Home",
+      "createNew": "Create New Report"
+    },
+    "success": {
+      "title": "Report Sent Successfully",
+      "fineMessage": "Thank you for letting us know everything is fine. Your report has been received.",
+      "reportMessage": "Your report has been received. A teacher will review it shortly."
+    },
+    "errors": {
+      "noIncidents": "Please select at least one incident to report",
+      "incomplete": "Please fill in all required fields",
+      "submitFailed": "Error submitting report. Please try again."
+    },
+    "categories": {
+      "physical": "Physical Harassment",
+      "verbal": "Verbal Harassment",
+      "social": "Social Harassment",
+      "cyber": "Cyber Harassment"
+    }
   },
   "teacherDashboard": {
     "title": "Are You Safe - Teacher Dashboard",
     "teacher": "Teacher:",
-    "totalReports": "{{count}} total report(s) • {{pending}} pending",
+    "totalReports": "Total Reports:",
     "reports": "Reports",
+    "reportsLabel": "Reports:",
     "students": "Students",
     "home": "Home",
     "logout": "Logout",
     "loading": "Loading reports...",
     "all": "All ({{count}})",
     "pending": "Pending ({{count}})",
+    "pendingLabel": "Pending:",
     "reviewed": "Reviewed ({{count}})",
     "resolved": "Resolved ({{count}})",
+    "resolvedLabel": "Resolved:",
     "noReports": "No reports to display",
     "reportDetails": "Report Details",
     "student": "Student",
@@ -217,7 +390,6 @@
     "noReportsFound": "No reports found for this student.",
     "longTermAnalysis": "Long-term Analysis",
     "overview": "Overview",
-    "totalReports": "Total Reports:",
     "firstReport": "First Report:",
     "lastReport": "Last Report:",
     "averageLevels": "Average Levels",
@@ -229,23 +401,53 @@
     "allStudents": "All Students",
     "searchPlaceholder": "Search by name or ID...",
     "noStudents": "No students found.",
-    "reports": "Reports:",
-    "pending": "Pending:",
-    "resolved": "Resolved:"
+    "once": "Once",
+    "sometimes": "Sometimes",
+    "often": "Often",
+    "always": "Always",
+    "physicalHarassment": "Physical Harassment",
+    "level": "Level",
+    "symbols": "Symbols:",
+    "categories": "Categories:",
+    "urgency": "URGENCY",
+    "errors": {
+      "updateStatus": "Error updating status",
+      "generateRecommendations": "Error generating recommendations. Please try again."
+    }
+  },
+  "safetyThermometer": {
+    "question": "Do you feel safe at school?",
+    "selectedLevel": "Safety level: {level}"
+  },
+  "categorySymbolSelector": {
+    "description": "Select all behaviors that apply",
+    "none": "None"
+  },
+  "emotionScale": {
+    "howDoYouFeel": "How do you feel?",
+    "selectedLevel": "Emotional level: {level}"
+  },
+  "themeSelector": {
+    "changeTheme": "Change theme",
+    "changeBackgroundColor": "Change background color",
+    "chooseBackgroundColor": "Choose a background color"
   },
   "common": {
     "yes": "Yes",
     "no": "No",
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "continue": "Continue",
     "save": "Save",
     "delete": "Delete",
     "edit": "Edit",
     "close": "Close",
+    "back": "Back",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Information"
+    "info": "Information",
+    "required": "Required"
   }
 }

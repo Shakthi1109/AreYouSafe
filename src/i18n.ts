@@ -21,6 +21,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'fr', // Default to French since the app seems primarily French
+    lng: 'fr', // Set initial language explicitly
     debug: process.env.NODE_ENV === 'development',
 
     interpolation: {
@@ -30,6 +31,10 @@ i18n
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
+    },
+
+    react: {
+      useSuspense: true, // Enable Suspense for proper loading
     },
   });
 

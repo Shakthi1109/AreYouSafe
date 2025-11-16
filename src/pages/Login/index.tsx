@@ -407,6 +407,8 @@ export function Login() {
                   onComplete={handlePatternComplete}
                   onError={() => setError(t('login.errors.patternError'))}
                   disabled={isSubmitting}
+                  ariaLabel={t('login.pattern.ariaLabel')}
+                  instructions={t('login.pattern.instructions')}
                 />
 
                 {error && (

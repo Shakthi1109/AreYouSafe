@@ -3,6 +3,7 @@
  */
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { getCurrentUser, logout } from '@/lib/auth';
 import { CategorySymbolSelector } from '@/components/reporting/CategorySymbolSelector';
 import { BodyMap } from '@/components/reporting/BodyMap';
@@ -29,28 +30,31 @@ import {
 } from '@/lib/api';
 import './HelpOthers.css';
 
-const frequencyOptions = [
-  { value: 'once', label: 'Once' },
-  { value: 'sometimes', label: 'Sometimes' },
-  { value: 'often', label: 'Often' },
-  { value: 'always', label: 'Always' },
-];
-
-// Category configuration for step-by-step symbol selection
-const SYMBOL_CATEGORIES = [
-  { id: 'physical', label: 'Physical Harassment', icon: attackIcon },
-  { id: 'verbal', label: 'Verbal Harassment', icon: mockIcon },
-  { id: 'social', label: 'Social Harassment', icon: isolationIcon },
-  { id: 'cyber', label: 'Cyber Harassment', icon: '💻' }, // No icon file for cyber, keep emoji
-];
-
 export function HelpOthers() {
+  const { t } = useTranslation();
+  
+  // Frequency options with translations
+  const frequencyOptions = [
+    { value: 'once', label: t('helpOthers.frequency.once') },
+    { value: 'sometimes', label: t('helpOthers.frequency.sometimes') },
+    { value: 'often', label: t('helpOthers.frequency.often') },
+    { value: 'always', label: t('helpOthers.frequency.always') },
+  ];
+
+  // Category configuration with translations
+  const SYMBOL_CATEGORIES = [
+    { id: 'physical', label: t('helpOthers.categories.physical'), icon: attackIcon },
+    { id: 'verbal', label: t('helpOthers.categories.verbal'), icon: mockIcon },
+    { id: 'social', label: t('helpOthers.categories.social'), icon: isolationIcon },
+    { id: 'cyber', label: t('helpOthers.categories.cyber'), icon: '💻' },
+  ];
+  
   const [step, setStep] = useState(1);
   const currentUser = getCurrentUser();
   const reporterId = currentUser?.id || 'reporter-001';
   const reporterName = currentUser?.name || 'Reporter';
   const [studentName, setStudentName] = useState('');
-  
+
   const [symbols, setSymbols] = useState<SymbolSelection[]>([]);
   const [categorySelections, setCategorySelections] = useState<Record<string, SymbolSelection[]>>({});
   const [bodyMap, setBodyMap] = useState<BodyMapSelection[]>([]);
@@ -79,11 +83,11 @@ export function HelpOthers() {
 
   const handleSubmit = async () => {
     if (!symbols.length) {
-      alert('Please select at least one incident to report');
+      alert(t('helpOthers.errors.noIncidents'));
       return;
     }
     if (!emotion || !location || !frequency || !safety || !studentName.trim()) {
-      alert('Please fill in all required fields including the student name');
+      alert(t('helpOthers.errors.incomplete'));
       return;
     }
 
@@ -105,7 +109,7 @@ export function HelpOthers() {
       }, 3000);
     } catch (error) {
       console.error('Error submitting report:', error);
-      alert('Error sending report. Please try again.');
+      alert(t('helpOthers.errors.submitFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -167,16 +171,16 @@ export function HelpOthers() {
       <div className="help-others-page">
         <div className="success-message">
           <div className="success-icon">✓</div>
-          <h2>Report Sent Successfully</h2>
-          <p>Your report for {studentName || 'the student'} has been received. A teacher will review it shortly.</p>
+          <h2>{t('helpOthers.success.title')}</h2>
+          <p>{t('helpOthers.success.message', { name: studentName || t('helpOthers.success.defaultName') })}</p>
           <div className="success-actions">
             <Link to="/">
               <Button variant="outline" className="previous-btn">
-                Back to Home
+                {t('helpOthers.buttons.backToHome')}
               </Button>
             </Link>
             <Button onClick={resetForm} className="next-btn">
-              Create New Report
+              {t('helpOthers.buttons.createNew')}
             </Button>
           </div>
         </div>
@@ -189,7 +193,7 @@ export function HelpOthers() {
 
       <div className="dashboard-header-top">
         <Link to="/" className="dashboard-title-link">
-          <h1 className="dashboard-title">Je te crois</h1>
+          <h1 className="dashboard-title">{t('helpOthers.title')}</h1>
         </Link>
         <div className="user-info">
           <span className="user-name">{reporterName}</span>
@@ -202,7 +206,7 @@ export function HelpOthers() {
             }}
             className="logout-btn"
           >
-            Déconnexion
+            {t('helpOthers.logout')}
           </Button>
         </div>
       </div>
@@ -225,17 +229,17 @@ export function HelpOthers() {
       <div className="report-form">
         {step === 1 && (
           <div className="form-step">
-            <h3 className="text-lg font-semibold mb-4">Qui a besoin d'aide?</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('helpOthers.whoNeedsHelp')}</h3>
             <div className="student-name-input">
               <input
                 type="text"
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
-                placeholder="Entrez le nom de la personne (ou laissez anonyme)"
+                placeholder={t('helpOthers.enterName')}
                 className="name-input"
               />
               <p className="text-sm text-muted-foreground mt-2">
-                Vous pouvez entrer leur nom ou laisser vide pour signaler anonymement
+                {t('helpOthers.leaveAnonymous')}
               </p>
             </div>
           </div>
@@ -272,16 +276,16 @@ export function HelpOthers() {
           <div className="form-step">
             <div className="question-header">
               <div className="question-icon-placeholder">📋</div>
-              <h3>Review Your Report</h3>
+              <h3>{t('helpOthers.reviewReport')}</h3>
             </div>
             <div className="review-summary">
-              <p>You have selected the following incidents:</p>
+              <p>{t('helpOthers.selectedIncidents')}</p>
               {symbols.length > 0 ? (
                 <div className="selected-symbols-list">
                   {symbols.map((symbol) => {
                     const category = SYMBOL_CATEGORIES.find(c => c.id === symbol.category);
                     const categoryIcon = category?.icon;
-                    const isImageIcon = typeof categoryIcon === 'string' && 
+                    const isImageIcon = typeof categoryIcon === 'string' &&
                       (categoryIcon.includes('/') || categoryIcon.includes('\\') || categoryIcon.endsWith('.png'));
                     return (
                       <div key={symbol.id} className="selected-symbol-item">
@@ -298,7 +302,7 @@ export function HelpOthers() {
                   })}
                 </div>
               ) : (
-                <p style={{ color: '#FF8CC8', fontStyle: 'italic' }}>No incidents selected. You can go back to add incidents.</p>
+                <p style={{ color: '#FF8CC8', fontStyle: 'italic' }}>{t('helpOthers.noIncidents')}</p>
               )}
             </div>
           </div>
@@ -314,7 +318,7 @@ export function HelpOthers() {
           <div className="form-step">
             <div className="question-header">
               <img src={whereIcon} alt="Where" className="question-icon" />
-              <h3>Where did this happen?</h3>
+              <h3>{t('helpOthers.whereDidThisHappen')}</h3>
             </div>
             <div className="locations-grid">
               {locations.map((loc) => (
@@ -335,7 +339,7 @@ export function HelpOthers() {
           <div className="form-step">
             <div className="question-header">
               <img src={howOftenIcon} alt="How often" className="question-icon" />
-              <h3>How often does this happen?</h3>
+              <h3>{t('helpOthers.howOften')}</h3>
             </div>
             <div className="frequency-options">
               {frequencyOptions.map((opt) => (
@@ -366,13 +370,13 @@ export function HelpOthers() {
               <>
                 <div className="question-header">
                   <img src={whichBodyPartIcon} alt="Which body part" className="question-icon" />
-                  <h3>Where were you touched?</h3>
+                  <h3>{t('helpOthers.whereWereYouTouched')}</h3>
                 </div>
                 <BodyMap onSelect={setBodyMap} selectedPoints={bodyMap} />
               </>
             ) : (
               <div style={{ textAlign: 'center', padding: '40px 20px', color: '#FF8CC8', fontSize: '18px', fontWeight: 600 }}>
-                No physical incidents reported. You can proceed to submit.
+                {t('helpOthers.noPhysicalIncidents')}
               </div>
             )}
           </div>
@@ -381,22 +385,22 @@ export function HelpOthers() {
         {step === 1 && (
           <div className="form-actions">
             <Button onClick={() => setStep(step + 1)} disabled={!canProceed()} className="next-btn">
-              Next
+              {t('common.continue')}
             </Button>
           </div>
         )}
         {step > 1 && (
           <div className="form-actions">
             <Button variant="outline" onClick={() => setStep(step - 1)} className="previous-btn">
-              Previous
+              {t('common.back')}
             </Button>
             {step < 11 ? (
               <Button onClick={() => setStep(step + 1)} disabled={!canProceed()} className="next-btn">
-                Next
+                {t('common.continue')}
               </Button>
             ) : (
               <Button onClick={handleSubmit} disabled={!canProceed() || isSubmitting} className="next-btn">
-                {isSubmitting ? 'Sending...' : 'Submit Report'}
+                {isSubmitting ? t('helpOthers.buttons.sending') : t('helpOthers.buttons.submitReport')}
               </Button>
             )}
           </div>
@@ -405,4 +409,3 @@ export function HelpOthers() {
     </div>
   );
 }
-

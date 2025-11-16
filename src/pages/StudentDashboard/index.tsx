@@ -31,23 +31,25 @@ import {
 } from '@/lib/api';
 import './StudentDashboard.css';
 
-const frequencyOptions = [
-  { value: 'once', label: 'Once' },
-  { value: 'sometimes', label: 'Sometimes' },
-  { value: 'often', label: 'Often' },
-  { value: 'always', label: 'Always' },
-];
-
-// Category configuration for step-by-step symbol selection
-const SYMBOL_CATEGORIES = [
-  { id: 'physical', label: 'Physical Harassment', icon: attackIcon },
-  { id: 'verbal', label: 'Verbal Harassment', icon: mockIcon },
-  { id: 'social', label: 'Social Harassment', icon: isolationIcon },
-  { id: 'cyber', label: 'Cyber Harassment', icon: '💻' }, // No icon file for cyber, keep emoji
-];
-
 export function StudentDashboard() {
   const { t } = useTranslation();
+  
+  // Frequency options with translations
+  const frequencyOptions = [
+    { value: 'once', label: t('studentDashboard.frequency.once') },
+    { value: 'sometimes', label: t('studentDashboard.frequency.sometimes') },
+    { value: 'often', label: t('studentDashboard.frequency.often') },
+    { value: 'always', label: t('studentDashboard.frequency.always') },
+  ];
+
+  // Category configuration with translations
+  const SYMBOL_CATEGORIES = [
+    { id: 'physical', label: t('studentDashboard.categories.physical'), icon: attackIcon },
+    { id: 'verbal', label: t('studentDashboard.categories.verbal'), icon: mockIcon },
+    { id: 'social', label: t('studentDashboard.categories.social'), icon: isolationIcon },
+    { id: 'cyber', label: t('studentDashboard.categories.cyber'), icon: '💻' },
+  ];
+  
   const [step, setStep] = useState(1);
   const currentUser = getCurrentUser();
   const studentId = currentUser?.id || 'student-001';
