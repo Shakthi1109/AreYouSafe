@@ -41,8 +41,11 @@ export function CategorySymbolSelector({
   const loadSymbols = async () => {
     try {
       const data = await getSymbols();
+      console.log('All symbols loaded:', data);
+      console.log('Current category:', category);
       // Filter symbols for this category only
       const categorySymbols = data.filter((s) => s.category === category);
+      console.log('Filtered symbols for category:', categorySymbols);
       setSymbols(categorySymbols);
     } catch (error) {
       console.error('Error loading symbols:', error);
@@ -95,28 +98,34 @@ export function CategorySymbolSelector({
 
       {/* Symbols grid */}
       <div className="symbols-grid-category">
-        {symbols.map((symbol) => {
-          const isSelected = selected.some((s) => s.id === symbol.id);
-          return (
-            <button
-              key={symbol.id}
-              onClick={() => toggleSymbol(symbol)}
-              className={cn(
-                'symbol-card-category',
-                isSelected && 'selected'
-              )}
-            >
-              <div className="symbol-icon-category">
-                {isImageIcon ? (
-                  <img src={categoryIcon} alt={categoryLabel} className="symbol-icon-image" />
-                ) : (
-                  categoryIcon
+        {symbols.length > 0 ? (
+          symbols.map((symbol) => {
+            const isSelected = selected.some((s) => s.id === symbol.id);
+            return (
+              <button
+                key={symbol.id}
+                onClick={() => toggleSymbol(symbol)}
+                className={cn(
+                  'symbol-card-category',
+                  isSelected && 'selected'
                 )}
-              </div>
-              <div className="symbol-label-category">{symbol.label}</div>
-            </button>
-          );
-        })}
+              >
+                <div className="symbol-icon-category">
+                  {isImageIcon ? (
+                    <img src={categoryIcon} alt={categoryLabel} className="symbol-icon-image" />
+                  ) : (
+                    categoryIcon
+                  )}
+                </div>
+                <div className="symbol-label-category">{symbol.label}</div>
+              </button>
+            );
+          })
+        ) : (
+          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '20px', color: '#64748b' }}>
+            Loading symbols...
+          </div>
+        )}
         {/* None option - last in grid */}
         <button
           onClick={handleNone}
@@ -132,4 +141,3 @@ export function CategorySymbolSelector({
     </div>
   );
 }
-
